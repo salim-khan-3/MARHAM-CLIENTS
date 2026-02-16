@@ -1,16 +1,16 @@
-import AdviceBanner from '@/components/Home/AdviceBanner/AdviceBanner';
-import DiseasesSection from '@/components/Home/DiseasesSection/DiseasesSection';
-import DoctorByCity from '@/components/Home/DoctorByCity/DoctorByCity';
-import { DoctorSection } from '@/components/Home/DoctorSection/DoctorSection';
-import HealthBlogs from '@/components/Home/HealthBlogs/HealthBlogs';
-import HeroSearch from '@/components/Home/HeroSearch/HeroSearch';
-import PartnerSlider from '@/components/Home/PartnerSlider/PartnerSlider';
-import ReviewSlider from '@/components/Home/ReviewSlider/ReviewSlider';
-import ServiceGrid from '@/components/Home/ServiceGrid/ServiceGrid';
-import SymptomsSection from '@/components/Home/SymptomsSection/SymptomsSection';
-import WhyMarham from '@/components/Home/WhyMarham/WhyMarham';
-import Navbar from '@/components/Navbar/Navbar';
-import React from 'react';
+import AdviceBanner from "@/components/Home/AdviceBanner/AdviceBanner";
+import DiseasesSection from "@/components/Home/DiseasesSection/DiseasesSection";
+import DoctorByCity from "@/components/Home/DoctorByCity/DoctorByCity";
+import { DoctorSection } from "@/components/Home/DoctorSection/DoctorSection";
+import HealthBlogs from "@/components/Home/HealthBlogs/HealthBlogs";
+import HeroSearch from "@/components/Home/HeroSearch/HeroSearch";
+import PartnerSlider from "@/components/Home/PartnerSlider/PartnerSlider";
+import ReviewSlider from "@/components/Home/ReviewSlider/ReviewSlider";
+import ServiceGrid from "@/components/Home/ServiceGrid/ServiceGrid";
+import SymptomsSection from "@/components/Home/SymptomsSection/SymptomsSection";
+import WhyMarham from "@/components/Home/WhyMarham/WhyMarham";
+import Navbar from "@/components/layouts/Navbar/Navbar";
+import React from "react";
 
 const Home = () => {
   return (
