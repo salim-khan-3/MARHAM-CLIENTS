@@ -1,5 +1,6 @@
 "use client";
 
+import DirectoryLinks from '@/components/DoctorListing/DirectoryLinks/DirectoryLinks';
 import DoctorCard from '@/components/DoctorListing/DoctorCard/DoctorCard';
 import DoctorSlider from '@/components/DoctorListing/DoctorSlider/DoctorSlider';
 import FaqSection from '@/components/DoctorListing/FaqSection/FaqSection';
@@ -24,6 +25,9 @@ const DoctorListingPage = () => {
 
             {/* faq section  */}
             <FaqSection></FaqSection>
+
+            {/* best hospital in bangladesh */}
+            <DirectoryLinks></DirectoryLinks>
         </div>
     );
 };
