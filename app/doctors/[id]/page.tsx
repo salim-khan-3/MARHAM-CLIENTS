@@ -1,14 +1,18 @@
-import BookingForm from '@/components/Booking/BookingForm/BookingForm';
-import ReviewSection from '@/components/Booking/ReviewSection/ReviewSection';
+import DoctorProfileCard from '@/components/Doctor-Profile/DoctorProfileCard/DoctorProfileCard';
+import DoctorStats from '@/components/Doctor-Profile/DoctorStats/DoctorStats';
+// import ReviewCard from '@/components/Doctor-Profile/ReviewCard/ReviewCard';
+// import ReviewCard from '@/components/Doctor-Profile/ReviewCard/ReviewCard';
 import React from 'react';
 
-const BookingPage = () => {
+const DoctorDetails = () => {
     return (
-        <div className='max-w-7xl mx-auto px-8 my-10'>
-            <BookingForm></BookingForm>
-            <ReviewSection></ReviewSection>
+        <div>
+            <DoctorProfileCard></DoctorProfileCard>
+            <DoctorStats></DoctorStats>
+            {/* <ReviewCard></ReviewCard> */}
+            {/* <ReviewCard></ReviewCard> */}
         </div>
     );
 };
 
-export default BookingPage;
+export default DoctorDetails;

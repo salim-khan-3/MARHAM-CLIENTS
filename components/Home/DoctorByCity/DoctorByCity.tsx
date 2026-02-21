@@ -1,4 +1,6 @@
-import React from 'react';
+import Link from 'next/link';
+// import { useState } from 'react';
+
 
 // Data structure define kora hoyeche jate code clean thake
 const cityData = [
@@ -41,6 +43,7 @@ const cityData = [
 ];
 
 const DoctorByCity = () => {
+  // const [city,setCity] = useState(false)
   return (
     <section className="bg-white py-12 px-4 md:px-10 font-sans">
       <div className="max-w-7xl mx-auto">
@@ -62,12 +65,12 @@ const DoctorByCity = () => {
               <ul className="space-y-2">
                 {city.specialists.map((specialist, idx) => (
                   <li key={idx}>
-                    <a 
+                    <Link 
                       href="#" 
                       className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors duration-200 block"
                     >
                       {specialist}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
