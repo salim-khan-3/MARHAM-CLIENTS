@@ -1,9 +1,10 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { MapPin, Search, ChevronDown } from 'lucide-react';
 
 const HeroSearch = () => {
+  const [city,setCity] = useState(false)
   return (
     <div className="w-full bg-white py-10 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
@@ -26,14 +27,16 @@ const HeroSearch = () => {
           <div className="flex flex-col md:flex-row items-center bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
             
             {/* Location Selector */}
-            <div className="flex items-center w-full md:w-1/3 px-4 py-3 border-b md:border-b-0 md:border-r border-gray-300 group cursor-pointer hover:bg-gray-50 transition-colors">
+            <div onClick={()=>setCity(!city)} className="flex items-center  relative w-full md:w-1/3 px-4 py-3 border-b md:border-b-0 md:border-r border-gray-300 group cursor-pointer hover:bg-gray-50 transition-colors">
               <MapPin size={20} className="text-[#005a78] mr-2" />
               <div className="flex flex-col flex-1">
                 <span className="text-sm font-semibold text-gray-700">Lahore</span>
               </div>
               <ChevronDown size={18} className="text-[#005a78]" />
             </div>
-
+            <div className='bg-amber-500 w-[200px] h-[200px] absolute top-[280px]'>
+        
+            </div>
             {/* Search Input Field */}
             <div className="flex items-center w-full md:w-2/3 px-4 py-3 relative group">
               <input 
