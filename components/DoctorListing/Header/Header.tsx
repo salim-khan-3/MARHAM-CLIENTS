@@ -1,6 +1,11 @@
 import React from 'react';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  specialist: string;
+  totalDoctors?: number;
+}
+
+const Header: React.FC<HeaderProps> = ({ specialist, totalDoctors }) => {
   return (
     <div className="w-full max-w-7xl mx-auto px-8 py-4">
       {/* Container with shadow and border radius */}
@@ -8,7 +13,7 @@ const Header: React.FC = () => {
         
         {/* Main Heading */}
         <h1 className="text-2xl md:text-3xl font-bold text-[#003d66]">
-          3,067 Best Gynecologists In Pakistan
+          {totalDoctors?.toLocaleString()} Best {specialist} In Bangladesh
         </h1>
 
         {/* Breadcrumb Section */}
@@ -18,7 +23,7 @@ const Header: React.FC = () => {
           </span>
           <span className="mx-2 text-gray-400 font-light">&gt;</span>
           <span className="text-[#003d66] font-medium">
-            Gynecologist
+            {specialist}
           </span>
         </nav>
         

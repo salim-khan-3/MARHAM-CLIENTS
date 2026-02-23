@@ -1,99 +1,147 @@
-import React from 'react';
-import Image from 'next/image';
-import { Video, User } from 'lucide-react';
+import React from "react";
+import { Video, User, CheckCircle2, Star, Clock, ThumbsUp } from "lucide-react";
+import Image from "next/image";
 
-const DoctorCard: React.FC = () => {
+interface Availability {
+  type: string;
+  status: string;
+  fee: string;
+  fastConfirm: boolean;
+}
+
+interface Doctor {
+  id: number;
+  name: string;
+  verified: boolean;
+  specialty: string;
+  qualifications: string;
+  image: string;
+  reviews: number;
+  experience: string;
+  satisfaction: string;
+  tags: string[];
+  availability: Availability[];
+}
+
+interface Props {
+  doctor: Doctor;
+}
+
+const DoctorCard: React.FC<Props> = ({ doctor }) => {
   return (
-    <div className="max-w-7xl mx-auto bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-6">
-      {/* Top Section: Info & Buttons */}
-      <div className="flex flex-col md:flex-row gap-6">
+    <div className="max-w-4xl mx-auto bg-white border border-slate-100 rounded-2xl p-5 md:p-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-300 mb-8 group">
+      
+      <div className="flex flex-col md:flex-row gap-8">
         
-        {/* Profile Image */}
-        <div className="relative w-32 h-32 flex-shrink-0">
-          <img
-            src="https://via.placeholder.com/150" // Replace with actual image source
-            alt="Doctor Profile"
-            className="rounded-full border-2 border-gray-100 object-cover w-full h-full"
-          />
-        </div>
+        {/* Left: Image & Quick Stats (Mobile Friendly) */}
+        <div className="flex flex-row md:flex-col items-center md:items-start gap-4 flex-shrink-0">
+  <div className="relative">
+    {/* Decorative Background */}
+    <div className="absolute inset-0 bg-blue-100 rounded-3xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
+    
+    {/* Next.js Optimized Image */}
+    <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-2xl overflow-hidden border-2 border-white shadow-md transition-transform duration-300 group-hover:scale-[1.02]">
+      <Image
+        src={doctor.image}
+        alt={doctor.name}
+        fill
+        className="object-cover"
+        sizes="(max-width: 768px) 112px, 128px"
+        priority={doctor.id <= 4} // Prothom 4-ta card-er image age load hobe (LCP optimize korar jonno)
+      />
+    </div>
 
-        {/* Doctor Info */}
-        <div className="flex-1">
-          <h2 className="text-xl font-bold text-[#006097] hover:underline cursor-pointer">
-            Dr. Mariam Khalid
-          </h2>
-          <p className="text-xs font-semibold text-teal-600 mt-1 uppercase tracking-wide">
-            PMDC Verified
-          </p>
-          <div className="mt-2 text-sm text-gray-700 space-y-1">
-            <p>Gynecologist</p>
-            <p className="text-gray-500">MBBS, FCPS (Obstetrics & Gynecology)</p>
+    {/* Verified Badge */}
+    {doctor.verified && (
+      <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-sm z-10">
+        <CheckCircle2 size={20} className="text-emerald-500 fill-emerald-50" />
+      </div>
+    )}
+  </div>
+</div>
+
+        {/* Middle: Doctor Info */}
+        <div className="flex-1 space-y-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-2xl font-extrabold text-slate-800 tracking-tight group-hover:text-blue-700 transition-colors">
+                {doctor.name}
+              </h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
+              <span className="text-blue-600 font-bold text-sm">{doctor.specialty}</span>
+              <span className="text-slate-300 hidden md:block">•</span>
+              <span className="text-slate-500 text-sm font-medium">{doctor.qualifications}</span>
+            </div>
           </div>
 
-          {/* Stats Section */}
-          <div className="flex gap-8 mt-4 border-t border-b border-gray-50 py-3">
-            <div>
-              <p className="text-xs text-gray-400 uppercase">Reviews</p>
-              <p className="font-bold text-gray-700">336</p>
+          {/* Stats Badges */}
+          <div className="flex flex-wrap gap-4 pt-2">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 rounded-lg">
+              <Star size={14} className="text-orange-400 fill-orange-400" />
+              <span className="text-xs font-bold text-slate-700">{doctor.reviews} Reviews</span>
             </div>
-            <div>
-              <p className="text-xs text-gray-400 uppercase">Experience</p>
-              <p className="font-bold text-gray-700">10 Yrs</p>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 rounded-lg">
+              <Clock size={14} className="text-blue-500" />
+              <span className="text-xs font-bold text-slate-700">{doctor.experience} Exp</span>
             </div>
-            <div>
-              <p className="text-xs text-gray-400 uppercase">Satisfaction</p>
-              <p className="font-bold text-gray-700">90%</p>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 rounded-lg">
+              <ThumbsUp size={14} className="text-emerald-500" />
+              <span className="text-xs font-bold text-slate-700">{doctor.satisfaction}</span>
             </div>
+          </div>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            {doctor.tags.map((tag) => (
+              <span key={tag} className="px-2.5 py-1 bg-blue-50/50 text-blue-600 text-[11px] font-bold rounded-full border border-blue-100/50 uppercase tracking-wider">
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col gap-2 w-full md:w-64">
-          <button className="flex items-center justify-center gap-2 bg-[#2d7a5e] hover:bg-[#24634c] text-white font-semibold py-3 px-4 rounded-md transition-all">
-            <Video size={20} />
+        {/* Right: Action Buttons */}
+        <div className="flex flex-col gap-3 w-full md:w-56 justify-center">
+          <button className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-[0_8px_20px_-6px_rgba(37,99,235,0.4)] active:scale-95">
+            <Video size={18} />
             Video Call
           </button>
-          <button className="flex items-center justify-center gap-2 bg-[#004e7c] hover:bg-[#003d66] text-white font-semibold py-3 px-4 rounded-md transition-all">
-            <User size={20} />
+          <button className="flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 font-bold py-3.5 rounded-xl border border-slate-200 transition-all active:scale-95">
+            <User size={18} />
             View Profile
           </button>
         </div>
       </div>
 
-      {/* Specialization Badges */}
-      <div className="flex flex-wrap gap-2 mt-4">
-        {['Gynecology', 'Obstetrician', 'Infertility Expert', 'Infertility'].map((tag) => (
-          <span key={tag} className="px-3 py-1 bg-[#f0f7fa] text-[#006097] text-xs rounded-md">
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      {/* Booking Slots */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-        {/* Slot 1: Active/Green */}
-        <div className="border-2 border-emerald-400 rounded-xl p-4 bg-white">
-          <div className="flex justify-between items-start">
-            <p className="text-sm font-bold text-[#006097]">Video Consultation</p>
-            <span className="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-md font-bold">Fast Confirm</span>
+      {/* Bottom: Availability Slots */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8 border-t border-slate-50 pt-6">
+        {doctor.availability.map((slot, index) => (
+          <div
+            key={index}
+            className={`group/slot relative p-4 rounded-2xl border-2 transition-all cursor-pointer ${
+              slot.fastConfirm 
+                ? "border-emerald-100 bg-emerald-50/20 hover:bg-emerald-50/40" 
+                : "border-slate-100 bg-white hover:border-blue-200"
+            }`}
+          >
+            <div className="flex justify-between items-start mb-2">
+              <h4 className={`text-xs font-black uppercase tracking-widest ${slot.fastConfirm ? 'text-emerald-700' : 'text-slate-400'}`}>
+                {slot.type.includes('Video') ? 'Online' : 'In-Person'}
+              </h4>
+              {slot.fastConfirm && (
+                <span className="bg-emerald-500 text-white text-[9px] px-2 py-0.5 rounded-full font-black uppercase">
+                  Instant
+                </span>
+              )}
+            </div>
+            <p className="text-[13px] font-bold text-slate-800 line-clamp-1">{slot.type}</p>
+            <div className="flex justify-between items-end mt-3">
+              <span className="text-[11px] font-medium text-slate-500">{slot.status}</span>
+              <span className="text-sm font-black text-blue-700">{slot.fee}</span>
+            </div>
           </div>
-          <p className="text-xs text-gray-500 mt-1">Available Today</p>
-          <p className="text-sm font-bold mt-2">Rs. 1,000</p>
-        </div>
-
-        {/* Slot 2 */}
-        <div className="border border-gray-300 rounded-xl p-4 hover:border-[#006097] transition-colors cursor-pointer">
-          <p className="text-sm font-bold text-[#006097]">Saira Memorial Hospital, Lahore</p>
-          <p className="text-xs text-gray-500 mt-1">Available Tomorrow</p>
-          <p className="text-sm font-bold mt-2">Rs. 2,000</p>
-        </div>
-
-        {/* Slot 3 */}
-        <div className="border border-gray-300 rounded-xl p-4 hover:border-[#006097] transition-colors cursor-pointer">
-          <p className="text-sm font-bold text-[#006097]">Shalamar Medical Hospital, Lahore</p>
-          <p className="text-xs text-gray-500 mt-1">Available from Feb 18</p>
-          <p className="text-sm font-bold mt-2">Rs. 2,000</p>
-        </div>
+        ))}
       </div>
     </div>
   );
