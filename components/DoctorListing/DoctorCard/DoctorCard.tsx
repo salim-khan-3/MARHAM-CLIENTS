@@ -1,5 +1,5 @@
 import React from "react";
-import { Video, User, CheckCircle2, Star, Clock, ThumbsUp } from "lucide-react";
+import { Video, User, CheckCircle2, Star, Clock, ThumbsUp, MapPin } from "lucide-react";
 import Image from "next/image";
 
 interface Availability {
@@ -12,15 +12,16 @@ interface Availability {
 interface Doctor {
   id: number;
   name: string;
-  verified: boolean;
-  specialty: string;
-  qualifications: string;
-  image: string;
+  specialties: string[];
+  qualifications: string[];
   reviews: number;
-  experience: string;
-  satisfaction: string;
+  experience: number;
+  satisfaction: number;
   tags: string[];
-  availability: Availability[];
+  videoFee: number;
+  clinicFee: number;
+  clinicAddress: string;
+  imageUrl: string;
 }
 
 interface Props {
@@ -29,121 +30,146 @@ interface Props {
 
 const DoctorCard: React.FC<Props> = ({ doctor }) => {
   return (
-    <div className="max-w-4xl mx-auto bg-white border border-slate-100 rounded-2xl p-5 md:p-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-300 mb-8 group">
-      
-      <div className="flex flex-col md:flex-row gap-8">
-        
-        {/* Left: Image & Quick Stats (Mobile Friendly) */}
-        <div className="flex flex-row md:flex-col items-center md:items-start gap-4 flex-shrink-0">
-  <div className="relative">
-    {/* Decorative Background */}
-    <div className="absolute inset-0 bg-blue-100 rounded-3xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
-    
-    {/* Next.js Optimized Image */}
-    <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-2xl overflow-hidden border-2 border-white shadow-md transition-transform duration-300 group-hover:scale-[1.02]">
-      <Image
-        src={doctor.image}
-        alt={doctor.name}
-        fill
-        className="object-cover"
-        sizes="(max-width: 768px) 112px, 128px"
-        priority={doctor.id <= 4} // Prothom 4-ta card-er image age load hobe (LCP optimize korar jonno)
-      />
-    </div>
-
-    {/* Verified Badge */}
-    {doctor.verified && (
-      <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-sm z-10">
-        <CheckCircle2 size={20} className="text-emerald-500 fill-emerald-50" />
-      </div>
-    )}
-  </div>
-</div>
-
-        {/* Middle: Doctor Info */}
-        <div className="flex-1 space-y-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-2xl font-extrabold text-slate-800 tracking-tight group-hover:text-blue-700 transition-colors">
-                {doctor.name}
-              </h2>
-            </div>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
-              <span className="text-blue-600 font-bold text-sm">{doctor.specialty}</span>
-              <span className="text-slate-300 hidden md:block">•</span>
-              <span className="text-slate-500 text-sm font-medium">{doctor.qualifications}</span>
-            </div>
-          </div>
-
-          {/* Stats Badges */}
-          <div className="flex flex-wrap gap-4 pt-2">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 rounded-lg">
-              <Star size={14} className="text-orange-400 fill-orange-400" />
-              <span className="text-xs font-bold text-slate-700">{doctor.reviews} Reviews</span>
-            </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 rounded-lg">
-              <Clock size={14} className="text-blue-500" />
-              <span className="text-xs font-bold text-slate-700">{doctor.experience} Exp</span>
-            </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 rounded-lg">
-              <ThumbsUp size={14} className="text-emerald-500" />
-              <span className="text-xs font-bold text-slate-700">{doctor.satisfaction}</span>
-            </div>
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mt-4">
-            {doctor.tags.map((tag) => (
-              <span key={tag} className="px-2.5 py-1 bg-blue-50/50 text-blue-600 text-[11px] font-bold rounded-full border border-blue-100/50 uppercase tracking-wider">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Right: Action Buttons */}
-        <div className="flex flex-col gap-3 w-full md:w-56 justify-center">
-          <button className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-[0_8px_20px_-6px_rgba(37,99,235,0.4)] active:scale-95">
-            <Video size={18} />
-            Video Call
-          </button>
-          <button className="flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 font-bold py-3.5 rounded-xl border border-slate-200 transition-all active:scale-95">
-            <User size={18} />
-            View Profile
-          </button>
-        </div>
-      </div>
-
-      {/* Bottom: Availability Slots */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8 border-t border-slate-50 pt-6">
-        {doctor.availability.map((slot, index) => (
-          <div
-            key={index}
-            className={`group/slot relative p-4 rounded-2xl border-2 transition-all cursor-pointer ${
-              slot.fastConfirm 
-                ? "border-emerald-100 bg-emerald-50/20 hover:bg-emerald-50/40" 
-                : "border-slate-100 bg-white hover:border-blue-200"
-            }`}
+   <div
+            key={doctor.id}
+            className="bg-white rounded-[2rem] border border-gray-100 shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 mb-10"
           >
-            <div className="flex justify-between items-start mb-2">
-              <h4 className={`text-xs font-black uppercase tracking-widest ${slot.fastConfirm ? 'text-emerald-700' : 'text-slate-400'}`}>
-                {slot.type.includes('Video') ? 'Online' : 'In-Person'}
-              </h4>
-              {slot.fastConfirm && (
-                <span className="bg-emerald-500 text-white text-[9px] px-2 py-0.5 rounded-full font-black uppercase">
-                  Instant
-                </span>
-              )}
-            </div>
-            <p className="text-[13px] font-bold text-slate-800 line-clamp-1">{slot.type}</p>
-            <div className="flex justify-between items-end mt-3">
-              <span className="text-[11px] font-medium text-slate-500">{slot.status}</span>
-              <span className="text-sm font-black text-blue-700">{slot.fee}</span>
+            <div className="p-6 md:p-8">
+              <div className="flex flex-col lg:flex-row gap-8">
+                {/* Profile Image & Quick Stats */}
+                <div className="flex flex-col items-center lg:w-1/4">
+                  <div className="relative">
+                    <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-emerald-50 ring-8 ring-gray-50/50">
+                      <img
+                        src={doctor.imageUrl}
+                        alt={doctor.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute bottom-2 right-2 bg-emerald-500 p-1.5 rounded-full border-4 border-white">
+                      <CheckCircle2 className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 text-center">
+                    <div className="flex items-center justify-center gap-1 text-amber-500 font-bold text-lg">
+                      <Star className="w-5 h-5 fill-amber-500" />
+                      <span>{doctor.satisfaction}%</span>
+                    </div>
+                    <p className="text-gray-400 text-xs uppercase tracking-widest mt-1">
+                      Satisfaction
+                    </p>
+                  </div>
+                </div>
+
+                {/* Main Info */}
+                <div className="flex-1">
+                  <div className="flex flex-col md:flex-row justify-between gap-4">
+                    <div>
+                      <h2 className="text-2xl md:text-3xl font-black text-gray-900 hover:text-emerald-700 cursor-pointer transition-colors">
+                        {doctor.name}
+                      </h2>
+                      <p className="text-emerald-600 font-bold text-sm mt-1 flex items-center gap-1">
+                        PMDC Verified Specialist
+                      </p>
+                      <p className="text-gray-600 mt-3 font-medium leading-relaxed">
+                        {doctor.specialties.join(", ")}
+                      </p>
+                      <p className="text-gray-400 text-sm italic">
+                        {doctor.qualifications.join(", ")}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col gap-3 min-w-[180px]">
+                      <button className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-6 rounded-2xl font-bold shadow-lg shadow-emerald-200 transition-all">
+                        <Video className="w-5 h-5" />
+                        Video Call
+                      </button>
+                      <button className="flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white py-3 px-6 rounded-2xl font-bold shadow-lg transition-all">
+                        View Profile
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Stats Row */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 py-6 border-y border-dashed border-gray-100">
+                    <div className="text-center md:text-left">
+                      <p className="text-gray-400 text-xs font-bold uppercase tracking-tighter">
+                        Reviews
+                      </p>
+                      <p className="text-xl font-extrabold text-gray-800">
+                        {doctor.reviews}
+                      </p>
+                    </div>
+
+                    <div className="text-center md:text-left">
+                      <p className="text-gray-400 text-xs font-bold uppercase tracking-tighter">
+                        Experience
+                      </p>
+                      <p className="text-xl font-extrabold text-gray-800">
+                        {doctor.experience} Yrs
+                      </p>
+                    </div>
+
+                    <div className="hidden md:block">
+                      <p className="text-gray-400 text-xs font-bold uppercase tracking-tighter">
+                        Availability
+                      </p>
+                      <p className="text-xl font-extrabold text-emerald-600 flex items-center gap-1">
+                        <Clock className="w-4 h-4" /> Available Today
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mt-6">
+                    {doctor.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="bg-blue-50 text-blue-700 px-4 py-1.5 rounded-xl text-xs font-bold"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Fees/Location Blocks */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <div className="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100 flex justify-between items-center group hover:bg-emerald-100 transition-all">
+                  <div>
+                    <h4 className="font-bold text-emerald-900 flex items-center gap-2">
+                      <Video className="w-4 h-4" /> Video Consultation
+                    </h4>
+                    <p className="text-emerald-700 font-extrabold text-lg mt-1">
+                      Rs. {doctor.videoFee.toLocaleString()}
+                    </p>
+                  </div>
+                  <span className="bg-white text-emerald-600 px-3 py-1 rounded-lg text-xs font-black shadow-sm">
+                    FAST CONFIRM
+                  </span>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex justify-between items-center group hover:bg-slate-100 transition-all">
+                  <div className="flex-1 pr-4">
+                    <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                      <MapPin className="w-4 h-4" /> Clinic Visit
+                    </h4>
+                    <p className="text-slate-500 text-xs mt-1 truncate max-w-[200px]">
+                      {doctor.clinicAddress}
+                    </p>
+                    <p className="text-slate-800 font-extrabold text-lg mt-1">
+                      Rs. {doctor.clinicFee.toLocaleString()}
+                    </p>
+                  </div>
+                  <span className="bg-white text-slate-600 px-3 py-1 rounded-lg text-xs font-black shadow-sm">
+                    FAST CONFIRM
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-        ))}
-      </div>
-    </div>
   );
 };
 

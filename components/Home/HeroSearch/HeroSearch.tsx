@@ -61,7 +61,7 @@
 //         </div>
 
 //         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#1e293b] mb-4 tracking-tight">
-//           Find the Best <span className="text-blue-600">Doctor</span> <br className="hidden md:block" /> 
+//           Find the Best <span className="text-blue-600">Doctor</span> <br className="hidden md:block" />
 //           Near Your Location
 //         </h1>
 //         <p className="text-gray-500 text-lg mb-12 max-w-2xl mx-auto">
@@ -69,7 +69,7 @@
 //         </p>
 
 //         {/* Main Search Container */}
-//         <div 
+//         <div
 //           className={`max-w-4xl mx-auto transition-all duration-300 transform ${
 //             isFocused ? "scale-[1.02]" : "scale-100"
 //           }`}
@@ -77,7 +77,7 @@
 //           <div className={`flex flex-col md:flex-row items-stretch bg-white rounded-2xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border-2 transition-all ${
 //             isFocused ? "border-blue-400 ring-4 ring-blue-50" : "border-transparent"
 //           }`}>
-            
+
 //             {/* City Selector */}
 //             <div ref={cityRef} className="relative w-full md:w-1/3">
 //               <div
@@ -167,7 +167,7 @@
 //             </div>
 
 //             {/* CTA Button (Optional style, or keep the instant redirect) */}
-//             <button 
+//             <button
 //               className="hidden md:flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-8 rounded-xl font-bold transition-all shadow-lg shadow-blue-200"
 //               onClick={() => setShowSpecialist(true)}
 //             >
@@ -175,12 +175,12 @@
 //             </button>
 //           </div>
 //         </div>
-        
+
 //         {/* Quick Links */}
 //         <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-gray-400">
 //           <span>Popular:</span>
 //           {["Gynecologist", "Pediatrician", "Dermatologist"].map((tag) => (
-//             <button 
+//             <button
 //               key={tag}
 //               onClick={() => handleSpecialistSelect(tag)}
 //               className="hover:text-blue-500 transition-colors"
@@ -196,14 +196,26 @@
 
 // export default HeroSearch;
 
-
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { MapPin, Search, ChevronDown, Stethoscope, Sparkles } from "lucide-react";
+import {
+  MapPin,
+  Search,
+  ChevronDown,
+  Stethoscope,
+  Sparkles,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const cities: string[] = ["Dhaka", "Rajshahi", "Khulna", "Sylhet", "Chittagong", "Barisal"];
+const cities: string[] = [
+  "Dhaka",
+  "Rajshahi",
+  "Khulna",
+  "Sylhet",
+  "Chittagong",
+  "Barisal",
+];
 
 const specialists: string[] = [
   "Dermatologist",
@@ -234,7 +246,10 @@ const HeroSearch: React.FC = () => {
       if (cityRef.current && !cityRef.current.contains(event.target as Node)) {
         setShowCity(false);
       }
-      if (specialistRef.current && !specialistRef.current.contains(event.target as Node)) {
+      if (
+        specialistRef.current &&
+        !specialistRef.current.contains(event.target as Node)
+      ) {
         setShowSpecialist(false);
       }
     };
@@ -243,12 +258,13 @@ const HeroSearch: React.FC = () => {
   }, []);
 
   const handleSpecialistSelect = (specialist: string) => {
-    router.push(`/doctors?city=${selectedCity}&specialist=${encodeURIComponent(specialist)}`);
+    router.push(
+      `/doctors/${encodeURIComponent(selectedCity)}/${encodeURIComponent(specialist)}`,
+    );
   };
 
   return (
     <section className="relative w-full bg-gradient-to-b from-slate-50 to-white py-24 px-4 overflow-hidden">
-      
       {/* Soft Background Glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-40" />
@@ -256,7 +272,6 @@ const HeroSearch: React.FC = () => {
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10 text-center">
-        
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold mb-6 shadow-sm">
           <Sparkles size={14} />
@@ -264,12 +279,14 @@ const HeroSearch: React.FC = () => {
         </div>
 
         <h1 className="text-4xl md:text-6xl font-extrabold text-slate-800 leading-tight tracking-tight mb-5">
-          Find the Best <span className="text-blue-600">Doctor</span><br className="hidden md:block" />
+          Find the Best <span className="text-blue-600">Doctor</span>
+          <br className="hidden md:block" />
           Near You
         </h1>
 
         <p className="text-slate-500 text-lg max-w-2xl mx-auto mb-14">
-          Book appointments with verified specialists in your city. Fast, secure and reliable.
+          Book appointments with verified specialists in your city. Fast, secure
+          and reliable.
         </p>
 
         {/* Search Box */}
@@ -280,10 +297,11 @@ const HeroSearch: React.FC = () => {
         >
           <div
             className={`flex flex-col md:flex-row bg-white rounded-2xl p-2 border transition-all duration-300 shadow-xl shadow-slate-200/40 ${
-              isFocused ? "border-blue-500 ring-4 ring-blue-100" : "border-slate-200"
+              isFocused
+                ? "border-blue-500 ring-4 ring-blue-100"
+                : "border-slate-200"
             }`}
           >
-            
             {/* City Selector */}
             <div ref={cityRef} className="relative w-full md:w-1/3">
               <div
@@ -364,7 +382,7 @@ const HeroSearch: React.FC = () => {
                   <div className="max-h-72 overflow-y-auto custom-scrollbar">
                     {specialists
                       .filter((item) =>
-                        item.toLowerCase().includes(searchText.toLowerCase())
+                        item.toLowerCase().includes(searchText.toLowerCase()),
                       )
                       .map((item) => (
                         <div
@@ -381,8 +399,8 @@ const HeroSearch: React.FC = () => {
                         </div>
                       ))}
 
-                    {specialists.filter(i =>
-                      i.toLowerCase().includes(searchText.toLowerCase())
+                    {specialists.filter((i) =>
+                      i.toLowerCase().includes(searchText.toLowerCase()),
                     ).length === 0 && (
                       <div className="px-6 py-8 text-center text-slate-400 text-sm">
                         No specialists found.
