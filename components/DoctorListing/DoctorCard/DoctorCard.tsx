@@ -89,7 +89,7 @@ const DoctorCard: React.FC<Props> = ({ doctor }) => {
 
                 {/* Dynamic View Profile Button */}
                 <Link
-                  href={`/doctors/${doctor.city.toLowerCase()}/${doctor.specialties[0].toLowerCase()}/${createSlug(
+                  href={`/doctors/${doctor.city?.toLowerCase()}/${doctor.specialties[0]?.toLowerCase()}/${createSlug(
                     doctor.name
                   )}`}
                   className="flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white py-3 px-6 rounded-2xl font-bold shadow-lg transition-all text-center"
