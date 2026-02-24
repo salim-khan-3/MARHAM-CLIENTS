@@ -1,4 +1,3 @@
-
 import SearchComponent from "@/components/DoctorListing/SearchComponent/SearchComponent";
 
 // import {
@@ -14,6 +13,7 @@ import DoctorCard from "@/components/DoctorListing/DoctorCard/DoctorCard";
 
 interface Doctor {
   id: number;
+  city: string;
   name: string;
   specialties: string[];
   qualifications: string[];
@@ -36,6 +36,7 @@ interface PageProps {
 const doctorDataList: Doctor[] = [
   {
     id: 1,
+    city: "Dhaka",
     name: "Assoc. Prof. Dr. Imran Qadir",
     specialties: ["Urologist", "Sexologist", "Andrologist"],
     qualifications: ["MBBS", "MD", "FCPS"],
@@ -50,6 +51,7 @@ const doctorDataList: Doctor[] = [
   },
   {
     id: 2,
+    city: "Rajshahi",
     name: "Dr. Sarah Ahmed",
     specialties: ["Gynecologist", "Obstetrician"],
     qualifications: ["MBBS", "MCPS", "DGO"],
@@ -64,6 +66,7 @@ const doctorDataList: Doctor[] = [
   },
   {
     id: 3,
+    city: "Sylhet",
     name: "Dr. Sarah Ahmed",
     specialties: ["Gynecologist", "Obstetrician"],
     qualifications: ["MBBS", "MCPS", "DGO"],
@@ -78,6 +81,7 @@ const doctorDataList: Doctor[] = [
   },
   {
     id: 4,
+    city: "Chittagong",
     name: "Prof. Dr. Zayed Khan",
     specialties: ["Cardiologist", "Interventional Cardiologist"],
     qualifications: ["MBBS", "FCPS", "MRCP (UK)"],
@@ -92,6 +96,7 @@ const doctorDataList: Doctor[] = [
   },
   {
     id: 5,
+    city: "Rajshahi",
     name: "Prof. Dr. Zayed Khan",
     specialties: ["Cardiologist", "Interventional Cardiologist"],
     qualifications: ["MBBS", "FCPS", "MRCP (UK)"],
@@ -106,6 +111,7 @@ const doctorDataList: Doctor[] = [
   },
   {
     id: 6,
+    city: "Rajshahi",
     name: "Prof. Dr. Zayed Khan",
     specialties: ["Cardiologist", "Interventional Cardiologist"],
     qualifications: ["MBBS", "FCPS", "MRCP (UK)"],
@@ -120,6 +126,37 @@ const doctorDataList: Doctor[] = [
   },
   {
     id: 7,
+    city: "Rajshahi",
+    name: "Dr. Maria Sultana",
+    specialties: ["Dermatologist", "Cosmetologist"],
+    qualifications: ["MBBS", "DDV", "FCPS"],
+    reviews: 310,
+    experience: 8,
+    satisfaction: 92,
+    tags: ["Acne Treatment", "Laser Surgery", "Skin Rejuvenation"],
+    videoFee: 1200,
+    clinicFee: 1000,
+    clinicAddress: "Skin Clinic, Blue Area, Islamabad",
+    imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria",
+  },
+  {
+    id: 8,
+    city: "Rajshahi",
+    name: "Dr. Maria Sultana",
+    specialties: ["Dermatologist", "Cosmetologist"],
+    qualifications: ["MBBS", "DDV", "FCPS"],
+    reviews: 310,
+    experience: 8,
+    satisfaction: 92,
+    tags: ["Acne Treatment", "Laser Surgery", "Skin Rejuvenation"],
+    videoFee: 1200,
+    clinicFee: 1000,
+    clinicAddress: "Skin Clinic, Blue Area, Islamabad",
+    imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria",
+  },
+  {
+    id: 9,
+    city: "Barisal",
     name: "Dr. Maria Sultana",
     specialties: ["Dermatologist", "Cosmetologist"],
     qualifications: ["MBBS", "DDV", "FCPS"],
@@ -134,9 +171,8 @@ const doctorDataList: Doctor[] = [
   },
 ];
 
-const DoctorListing = async({ params }: PageProps) => {
+const DoctorListing = async ({ params }: PageProps) => {
   const { city, specialist } = await params;
-
 
   // const filteredDoctors = doctorDataList.filter(
   //   (doctor) =>
@@ -146,10 +182,18 @@ const DoctorListing = async({ params }: PageProps) => {
   //       .toLowerCase()
   //       .includes(searchTerm.toLowerCase()),
   // );
-  const filteredDoctors = doctorDataList.filter((doctor) =>
-    doctor.specialties.some(
-      (spec) => spec.toLowerCase() === specialist.toLowerCase(),
-    ),
+  // const filteredDoctors = doctorDataList.filter((doctor) =>
+  //   doctor.specialties.some(
+  //     (spec) => spec.toLowerCase() === specialist.toLowerCase(),
+  //   ),
+  // );
+
+  const filteredDoctors = doctorDataList.filter(
+    (doctor) =>
+      doctor.city.toLowerCase() === city.toLowerCase() &&
+      doctor.specialties.some(
+        (spec) => spec.toLowerCase() === specialist.toLowerCase(),
+      ),
   );
   return (
     <section className="w-full bg-gray-50 pb-20 ">
