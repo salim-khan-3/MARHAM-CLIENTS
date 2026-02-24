@@ -64,6 +64,20 @@ const doctorDataList: Doctor[] = [
   },
   {
     id: 3,
+    name: "Dr. Sarah Ahmed",
+    specialties: ["Gynecologist", "Obstetrician"],
+    qualifications: ["MBBS", "MCPS", "DGO"],
+    reviews: 420,
+    experience: 10,
+    satisfaction: 96,
+    tags: ["High Risk Pregnancy", "Infertility Specialist"],
+    videoFee: 1500,
+    clinicFee: 1200,
+    clinicAddress: "City Hospital, Gulberg III, Lahore",
+    imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+  },
+  {
+    id: 4,
     name: "Prof. Dr. Zayed Khan",
     specialties: ["Cardiologist", "Interventional Cardiologist"],
     qualifications: ["MBBS", "FCPS", "MRCP (UK)"],
@@ -77,7 +91,35 @@ const doctorDataList: Doctor[] = [
     imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Zayed",
   },
   {
-    id: 4,
+    id: 5,
+    name: "Prof. Dr. Zayed Khan",
+    specialties: ["Cardiologist", "Interventional Cardiologist"],
+    qualifications: ["MBBS", "FCPS", "MRCP (UK)"],
+    reviews: 890,
+    experience: 22,
+    satisfaction: 98,
+    tags: ["Angiography", "Heart Failure", "Hypertension"],
+    videoFee: 3000,
+    clinicFee: 2500,
+    clinicAddress: "Heart Care Center, Clifton, Karachi",
+    imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Zayed",
+  },
+  {
+    id: 6,
+    name: "Prof. Dr. Zayed Khan",
+    specialties: ["Cardiologist", "Interventional Cardiologist"],
+    qualifications: ["MBBS", "FCPS", "MRCP (UK)"],
+    reviews: 890,
+    experience: 22,
+    satisfaction: 98,
+    tags: ["Angiography", "Heart Failure", "Hypertension"],
+    videoFee: 3000,
+    clinicFee: 2500,
+    clinicAddress: "Heart Care Center, Clifton, Karachi",
+    imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Zayed",
+  },
+  {
+    id: 7,
     name: "Dr. Maria Sultana",
     specialties: ["Dermatologist", "Cosmetologist"],
     qualifications: ["MBBS", "DDV", "FCPS"],
@@ -93,7 +135,6 @@ const doctorDataList: Doctor[] = [
 ];
 
 const DoctorListing = async({ params }: PageProps) => {
-  console.log(params);
   const { city, specialist } = await params;
 
 
