@@ -1,29 +1,38 @@
-"use client";
-
-import React from "react";
+// app/doctors/[id]/page.tsx (অথবা আপনার ফোল্ডার স্ট্রাকচার অনুযায়ী)
+import { doctorDataList } from "@/data/doctors";
+import { notFound } from "next/navigation";
 import { 
   Star, MapPin, Calendar, Clock, Video, 
   Award, BookOpen, ShieldCheck, CheckCircle, 
   ChevronRight, MessageCircle, Share2
 } from "lucide-react";
 
-const DoctorDetailsPage = () => {
+interface PageProps {
+  params: Promise<{
+    city: string;
+    specialist: string;
+    doctor: string; // এখানে আসবে "12-dr-sarah-ahmed"
+  }>;
+}
 
-  const doctor = {
-    name: "Assoc. Prof. Dr. Imran Qadir",
-    specialties: ["Urologist", "Sexologist", "Andrologist"],
-    qualifications: "MBBS, MD (Urology), FCPS (Surgery)",
-    experience: 15,
-    satisfaction: 94,
-    reviews: 645,
-    pmdcStatus: "Verified",
-    about: "Dr. Imran Qadir is a highly experienced Urologist with over 15 years in the field. He specializes in male sexual health, kidney stones, and advanced urological surgeries. He is committed to providing compassionate care using the latest medical technologies.",
-    videoFee: 2000,
-    clinicFee: 1500,
-    address: "Qadir Medical Complex, People Colony No 2, Faisalabad",
-    availability: "Available Today",
-    imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Imran"
-  };
+const DoctorDetailsPage = async ({ params }: PageProps) => {
+  // ১. params কে await করে id বের করা
+  const { doctor: slug } = await params;
+  console.log(slug);
+
+// ১. slug থেকে ID আলাদা করা (প্রথম ড্যাশের আগের অংশটিই আইডি)
+  const doctorId = slug.split("-")[0];
+
+
+  // ২. id দিয়ে ডাক্তার খুঁজে বের করা
+  const doctor = doctorDataList.find(
+    (doc) => doc.id === parseInt(doctorId)
+  );
+
+ // ৩. চেক করা (এখন আর undefined আসবে না)
+  console.log("Found Doctor:", doctor);
+
+  if (!doctor) return notFound();
 
   return (
     <div className="min-h-screen bg-gray-50 pb-12">
@@ -32,7 +41,7 @@ const DoctorDetailsPage = () => {
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <span>Doctors</span> <ChevronRight className="w-4 h-4" /> 
-            <span>Faisalabad</span> <ChevronRight className="w-4 h-4" /> 
+            <span>{doctor.city}</span> <ChevronRight className="w-4 h-4" /> 
             <span className="text-emerald-600 font-medium">{doctor.name}</span>
           </div>
           <button className="p-2 hover:bg-gray-100 rounded-full transition-all">
@@ -62,11 +71,11 @@ const DoctorDetailsPage = () => {
                 <div className="flex flex-wrap items-center gap-3 mb-2">
                   <h1 className="text-2xl md:text-4xl font-black text-gray-900">{doctor.name}</h1>
                   <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                    <CheckCircle className="w-3 h-3" /> {doctor.pmdcStatus}
+                    <CheckCircle className="w-3 h-3" /> PMC Verified
                   </span>
                 </div>
                 <p className="text-gray-600 font-medium text-lg mb-1">{doctor.specialties.join(", ")}</p>
-                <p className="text-gray-400 font-medium">{doctor.qualifications}</p>
+                <p className="text-gray-400 font-medium">{doctor.qualifications.join(", ")}</p>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6">
                   <div className="bg-slate-50 p-3 rounded-2xl">
@@ -87,7 +96,8 @@ const DoctorDetailsPage = () => {
                 <BookOpen className="w-5 h-5 text-emerald-600" /> About Doctor
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                {doctor.about}
+                {/* আপনার ডাটাতে about ফিল্ড না থাকলে একটি ডিফল্ট টেক্সট */}
+                {doctor.name} is a highly experienced {doctor.specialties[0]} in {doctor.city} with {doctor.experience} years of practice. He is committed to providing excellent patient care.
               </p>
             </div>
 
@@ -95,7 +105,7 @@ const DoctorDetailsPage = () => {
             <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100">
               <h3 className="text-xl font-bold text-gray-900 mb-4">Specializations & Services</h3>
               <div className="flex flex-wrap gap-2">
-                {["Kidney Stones", "Infertility", "Prostate Surgery", "Laparoscopy", "Urine Infection", "Sexual Health"].map(tag => (
+                {doctor.tags.map(tag => (
                   <span key={tag} className="bg-blue-50 text-blue-700 px-4 py-2 rounded-xl text-sm font-bold border border-blue-100">
                     {tag}
                   </span>
@@ -112,7 +122,7 @@ const DoctorDetailsPage = () => {
             <div className="bg-white rounded-3xl shadow-xl border border-emerald-100 overflow-hidden sticky top-8">
               <div className="bg-emerald-600 p-6 text-white">
                 <p className="text-emerald-100 font-medium">Consultation Fee</p>
-                <h2 className="text-3xl font-black">Rs. {doctor.videoFee}</h2>
+                <h2 className="text-3xl font-black">৳ {doctor.videoFee}</h2>
               </div>
 
               <div className="p-6 space-y-4">
@@ -130,11 +140,11 @@ const DoctorDetailsPage = () => {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-gray-600">
                     <Clock className="w-5 h-5 text-emerald-500" />
-                    <span className="text-sm font-medium">{doctor.availability}</span>
+                    <span className="text-sm font-medium">Available Today</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-600">
                     <MapPin className="w-5 h-5 text-emerald-500" />
-                    <span className="text-sm font-medium">Clinic: {doctor.address}</span>
+                    <span className="text-sm font-medium">Clinic: {doctor.clinicAddress}</span>
                   </div>
                 </div>
 
@@ -159,7 +169,7 @@ const DoctorDetailsPage = () => {
                 <h4 className="font-bold">Top Rated Specialist</h4>
               </div>
               <p className="text-slate-400 text-sm">
-                This doctor is in the top 5% of specialists in Faisalabad based on patient reviews and successful treatments.
+                This doctor is in the top 5% of specialists in {doctor.city} based on patient reviews and successful treatments.
               </p>
             </div>
 
