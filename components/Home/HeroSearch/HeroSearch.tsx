@@ -35,6 +35,7 @@ const HeroSearch: React.FC = () => {
     setShowSpecialistDropdown(false);
   };
 
+
   return (
     <section className="relative w-full bg-gradient-to-b from-slate-50 to-white py-24 px-4 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
