@@ -180,7 +180,7 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Right Side: Illustration */}
+    
           <div className="hidden lg:flex flex-col items-center justify-center animate-in fade-in slide-in-from-right duration-700">
             <div className="relative w-full aspect-square max-w-[550px]">
               <Image
