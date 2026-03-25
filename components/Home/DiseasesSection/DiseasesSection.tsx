@@ -18,7 +18,7 @@ const diseases = [
 ];
 
 const DiseasesSection = () => {
-  // ডুপ্লিকেট অ্যারে তৈরি করা হয়েছে যাতে লুপটি নিরবচ্ছিন্ন মনে হয়
+
   const infiniteDiseases = [...diseases, ...diseases];
 
   return (
@@ -39,7 +39,7 @@ const DiseasesSection = () => {
 
       {/* Marquee Container */}
       <div className="relative">
-        {/* Left & Right Gradient Overlays (মার্ভেলাস লুকের জন্য অত্যন্ত জরুরি) */}
+        
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#f8fafc] to-transparent z-20 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#f8fafc] to-transparent z-20 pointer-events-none" />
 
@@ -51,7 +51,7 @@ const DiseasesSection = () => {
               className="flex flex-col items-center mx-4 md:mx-6 group/card cursor-pointer"
             >
               <div className="relative w-24 h-24 mb-4 flex items-center justify-center">
-                {/* Glow Effect on Hover */}
+          
                 <div className="absolute inset-0 bg-blue-400/20 rounded-[2.5rem] blur-xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
                 
                 <div className={`w-20 h-20 rounded-[2rem] ${disease.bg} flex items-center justify-center transition-all duration-500 shadow-sm group-hover/card:shadow-2xl group-hover/card:-translate-y-3 group-hover/card:rotate-6 border border-white relative z-10`}>
